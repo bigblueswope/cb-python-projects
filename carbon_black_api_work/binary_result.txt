@@ -1,0 +1,54 @@
+{
+  u'terms': [u'observed_filename:cmd.exe'], 
+  u'total_results': 3, 
+  
+  u'highlights': [{u'name': u'c:\\windows\\system32\\PREPREPREcmd.exePOSTPOSTPOST', u'ids': [u'74F26FC01B180D4A99A168ED69C30A53']}, {u'name': u'C:\\Windows\\system32\\PREPREPREcmd.exePOSTPOSTPOST', u'ids': [u'74F26FC01B180D4A99A168ED69C30A53']}],
+
+  u'facets': {
+    u'alliance_score_virustotal': [{u'name': 0, u'value': 0}, {u'name': 47, u'value': 0}], 
+    u'company_name_facet': [{u'percent': 100, u'ratio': u'100.0', u'name': u'Microsoft Corporation', u'value': 3}],
+    u'group': [{u'percent': 100, u'ratio': u'100.0', u'name': u'bit9 server group', u'value': 1}],
+    u'file_version_facet': [{u'percent': 100, u'ratio': u'33.3', u'name': u'5.2.3790.3959 (srv03_sp2_rtm.070216-1710)', u'value': 1}, {u'percent': 100, u'ratio': u'33.3', u'name': u'6.0.6001.18000 (longhorn_rtm.080118-1840)', u'value': 1}, {u'percent': 100, u'ratio': u'33.3', u'name': u'6.3.9600.16384 (winblue_rtm.130821-1623)', u'value': 1}],
+    u'digsig_result': [{u'percent': 100, u'ratio': u'100.0', u'name': u'Signed', u'value': 3}],
+    u'hostname': [{u'percent': 100, u'ratio': u'100.0', u'name': u'BIT9SERVER', u'value': 1}],
+    u'digsig_publisher_facet': [{u'percent': 100, u'ratio': u'100.0', u'name': u'Microsoft Corporation', u'value': 3}],
+    u'product_name_facet': [{u'percent': 100, u'ratio': u'100.0', u'name': u'Microsoft\xae Windows\xae Operating System', u'value': 3}],
+    u'server_added_timestamp': [{u'name': u'2014-10-26T00:00:00Z', u'value': 0}, {u'name': u'2014-11-26T00:00:00Z', u'value': 0}],
+    u'digsig_sign_time': [{u'name': u'2013-08-01T00:00:00Z', u'value': 1}, {u'name': u'2009-11-01T00:00:00Z', u'value': 0}, {u'name': u'2014-12-01T00:00:00Z', u'value': 0}],
+    u'observed_filename_facet': [{u'percent': 100, u'ratio': u'75.0', u'name': u'c:\\windows\\system32\\cmd.exe', u'value': 3}, {u'percent': 33, u'ratio': u'25.0', u'name': u'C:\\Windows\\system32\\cmd.exe', u'value': 1}]
+  },
+   
+
+  u'results': [{
+    u'digsig_result': u'Signed',
+    u'observed_filename': [u'C:\\Windows\\system32\\cmd.exe', u'c:\\windows\\system32\\cmd.exe'],
+    u'product_version': u'6.0.6001.18000',
+    u'signed': u'Signed',
+    u'digsig_sign_time': u'2008-01-19T16:33:00Z',
+    u'orig_mod_len': 318976,
+    u'is_executable_image': False,
+    u'is_64bit': False,
+    u'digsig_publisher': u'Microsoft Corporation',
+    u'group': [u'Bit9 Server Group'],
+    u'file_version': u'6.0.6001.18000 (longhorn_rtm.080118-1840)',
+    u'company_name': u'Microsoft Corporation',
+    u'internal_name': u'cmd',
+    u'product_name': u'Microsoft\xae Windows\xae Operating System',
+    u'digsig_result_code': u'0',
+    u'timestamp': u'2014-04-09T21:04:47.485Z',
+    u'copied_mod_len': 318976,
+    u'server_added_timestamp': u'2014-04-09T21:04:47.485Z',
+    u'md5': u'74F26FC01B180D4A99A168ED69C30A53',
+    u'endpoint': [u'BIT9SERVER|8'],
+    u'watchlists': [{u'wid': u'6', u'value': u'2014-04-09T21:20:03.242Z'}],
+    u'legal_copyright': u'\xa9 Microsoft Corporation. All rights reserved.',
+    u'original_filename': u'Cmd.Exe',
+    u'os_type': u'Windows',
+    u'file_desc': u'Windows Command Processor'
+  }], 
+ 
+
+  u'elapsed': 0.014467000961303711, 
+  
+
+  u'start': 0}
