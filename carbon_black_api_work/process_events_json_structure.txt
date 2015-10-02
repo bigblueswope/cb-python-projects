@@ -1,0 +1,57 @@
+API function "process_events" returns JSON data structure (a dict) containing several dicts
+	A) elapsed - float: how long the query took
+	B) process - dict: with several nested dicts
+		i. alliance_hits - dict: indexed by feed_id (I believe this matches up to the id in psql)
+			a. <feed_id> - dict:
+				i.  feedinfo - dict:
+					a.  display_name - string: Feed's name in UI
+					b.  name - string:  I think this is the name appended to 'alliance_score_' to use as a search term
+					c.  provider_url - string: URL shown in UI
+					d.  summary - string: summary shown in UI
+					e.  tech_data - string: explanation of data sharing requirements
+				ii.  hits - dict: indexed by id_of_the_hit
+					a.  <id_of_the_hit> - dict: 
+						i. create_time - int: seconds since unix epoc
+						ii.  feed_id - int: same feed id as great grandparent dict
+						iii.  feed_name - string: lowercase name of the feed
+						iv.  has_query - boolean: I'm guessing this identifies if the hit is tied to a query
+						v.  id - string:  same as the name of the parent dict
+						vi.  iocs - dict:
+							a.  <type_of_ioc> - list: containing multiple dicts
+								i. 'index' - int: value of something I cannot identify
+								ii.  'ioc' - string: the actual IOC that matched
+								iii.  'type' - string:  type of carbon black data that matched
+						vii.  link - string: if the hit/IOC has a URL for more details, this is it
+						viii. score - int:  score of the match (value that hit must exceed value specified in searches)
+						vix.  timestamp - int: seconds since unix epoc
+						vx.  title - string: Name of the report that shows in UI as a link when viewing the Alerts Triage
+		ii. binaries - dict: containing dicts indexed by md5
+			a.  <md5_of_binary> - string: the key is the md5 of the binary 
+				i.  digsig_publisher - string: name of publisher signing the file
+				ii.  digsig_result - string: result of signature check
+		iii. childproc_count - integer: count of child prods
+		iv.  cmdline - string: process command line
+		v.  filemod_count - integer: count of file mods
+		vi. group - string: name of sensor's group
+		vii.  host_type - string: OS type
+		viii. hostname - string: host name
+		ix.  id - string: this process' id (used in conjunction with segment_id)
+		x.  last_update - string: datetime (UTC) of last update to the process doc
+		xi.  modload_complete - list: each entry is a concat of 'datetime (UTC)|module md5|module full path and name'
+		xii. modload_count - int: count of loaded modules
+		xiii.  netconn_count - int: count of network connections
+		xiv.  os_type - string: currently unknown by me
+		xv.  parent_id - string: id of parent process
+		xvi.  path - string: full path and name of this process
+		xvii.  process_md5 - string: md5 of this process
+		xviii. regmod_complete - list of registry mods each regmod is 'datetime (UTC)|registry path'
+		xix.  regmod_count - int: count of modified registry keys
+		xx. segment_id - int: this process' segment id (used in conjunction with id)
+		xxi.  sensor_id - int: sensor id
+		xxii.  start - string: datetime (UTC)
+		xxiii.  terminated - string: unknown by me
+		xxiv.  uid - string: Windows SID of process' user
+		xxv.  unique_id - string: universal unique id
+		xxvi.  username - string: process' user
+		
+		

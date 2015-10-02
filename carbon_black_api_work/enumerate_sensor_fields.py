@@ -6,7 +6,7 @@ import cbapi
 
 
 def build_cli_parser():
-    parser = argparse.ArgumentParser(description="Prints a list of sensors which have not checked in for longer than a specified number of days or hours.")
+    parser = argparse.ArgumentParser(description="Lists the fields available when querying sensor data.")
     # for each supported output type, add an option
     #
     parser.add_argument("-c", "--cburl", action="store", default=None, dest="url",
@@ -33,11 +33,16 @@ def main():
         # enumerate sensors
         sensors = cb.sensors()
 
+    print "List of fields available to be returned by a sensor search:"
+    unique_field_names = []
+    for k in sensors[1]:
+        if k not in unique_field_names:
+            unique_field_names.append(k)
+    for l in sorted(unique_field_names):
+        print l
+    sys.exit(0)
+   
     
-    for sensor in sensors:
-        pp = pprint.PrettyPrinter(indent=2)
-        pp.pprint(sensor)
-
 if __name__ == "__main__":
     sys.exit(main())
 
