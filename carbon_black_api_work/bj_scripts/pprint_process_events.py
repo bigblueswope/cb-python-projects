@@ -1,26 +1,14 @@
-import sys, struct, socket, pprint, argparse, warnings
-sys.path.append('../../cbapi/client_apis/python/src/cbapi/')
+import sys, pprint, argparse
+sys.path.append('../../../cbapi/client_apis/python/src/cbapi/')
 import cbapi 
-
-def build_cli_parser():
-    parser = argparse.ArgumentParser(description="Performs a process search. Returns desired fields as a list.", fromfile_prefix_chars='@')
-
-    parser.add_argument("-c", "--cburl", action="store", default=None, dest="url",
-                      help="CB server's URL.  e.g., https://127.0.0.1 ")
-    parser.add_argument("-a", "--apitoken", action="store", default=None, dest="token",
-                      help="Carbon Black API Authentication Token")
-    parser.add_argument("-n", "--no-ssl-verify", action="store_false", default=False, dest="ssl_verify",
-                      help="SSL Verification. Default = Do not verify")
-    return parser
+from cli_parser import build_cli_parser
 
 def run_query(args):
     # build a cbapi object
     cb = cbapi.CbApi(args.url, token=args.token, ssl_verify=args.ssl_verify)
 
     # use the cbapi object to perform a process based search
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore")
-        processes = cb.process_search(args.query, rows=args.rows)
+    processes = cb.process_search(args.query, rows=args.rows, facet_enable=False)
     return processes
 
 def get_events(args, arg1, arg2):
@@ -30,10 +18,10 @@ def get_events(args, arg1, arg2):
     return events
 
 def main():
-    parser = build_cli_parser()
-    args = parser.parse_args()
+    args = build_cli_parser()
     #query for cmd.exe
-    args.query = 'process_name:cmd.exe'
+    args.query = 'filemod_count:5 process_name:notepad.exe'
+    #args.query = 'process_name:cmd.exe'
     #request the process' id and segment id, these two fields are the data needed to request the events associated with a specific process
     args.fields = ['id','segment_id']
     #return a single process because we just want some sample data to print out

@@ -1,4 +1,4 @@
-import sys, struct, socket, pprint, argparse , warnings
+import sys, argparse, warnings
 
 # in the github repo, cbapi is not in the example directory
 sys.path.append('../../cbapi/client_apis/python/src/cbapi/')

@@ -54,8 +54,6 @@ def main():
 
     if not args.fields:
         if args.list_fields:
-            #args.query='observed_filename:cmd.exe'
-            #args.query='md5:18bd0948d254894441dd6f818d9b3811'
             args.query='childproc_md5:18bd0948d254894441dd6f818d9b3811'
             #args.rows=4
             #args.fl='*'
