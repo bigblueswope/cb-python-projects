@@ -1,3 +1,5 @@
+#!/bin/env python
+
 __author__ = 'BJSwope'
 import sys, argparse
 from cli_parser import build_cli_parser
