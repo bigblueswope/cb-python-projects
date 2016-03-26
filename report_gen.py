@@ -11,9 +11,8 @@ def sum_list(l):
     return sum
 
 def process_query(args):
-
     # build a cbapi object
-    cb = cbapi.CbApi(args.url, token=args.token, ssl_verify=args.ssl_verify)
+    cb = cbapi.CbApi(args.url, token=args.token, ssl_verify=args.ssl_verify, args.facet_enable)
 
     # use the cbapi object to perform a process based search
     with warnings.catch_warnings():
@@ -23,7 +22,7 @@ def process_query(args):
 
 def alert_query(args):
     # build a cbapi object
-    cb = cbapi.CbApi(args.url, token=args.token, ssl_verify=args.ssl_verify)
+    cb = cbapi.CbApi(args.url, token=args.token, ssl_verify=args.ssl_verify, args.facet_enable)
 
     # use the cbapi object to perform a process based search
     with warnings.catch_warnings():
@@ -33,7 +32,7 @@ def alert_query(args):
      
 def alert_iterator(args):
     # build a cbapi object
-    cb = cbapi.CbApi(args.url, token=args.token, ssl_verify=args.ssl_verify)
+    cb = cbapi.CbApi(args.url, token=args.token, ssl_verify=args.ssl_verify, args.facet_enable)
 
     # use the cbapi object to perform a process based search
     with warnings.catch_warnings():
@@ -52,7 +51,6 @@ def main():
     
     report_data = {}
     #Process Statistics
-    #for dev purposes this is 3 days ago, the last time my demo has data
     yd = date.today() - timedelta(1)
     yd = yd.strftime('%Y-%m-%d')
     start_string = 'start:[%sT00:00:00 TO %sT23:59:59]' % (yd, yd)
@@ -94,8 +92,7 @@ def main():
     answer = process_query(args)
     report_data['virus_total_score_ge_2'] = answer['total_results']
 
-    # Alert Status
-    # Adjust this created_string when ready for prod testing
+    # Alert Statistics
     yd = date.today() - timedelta(1)
     yd = yd.strftime('%Y-%m-%d')
     created_string = 'created_time:[%sT00:00:00 TO %sT23:59:59]' % (yd, yd)
@@ -122,7 +119,6 @@ def main():
 
 
     # Alert Resolution Calculations
-    # Adjust this created_string when ready for prod testing
 
     yd = date.today() - timedelta(1)
     yd = yd.strftime('%Y-%m-%d')
@@ -139,9 +135,13 @@ def main():
         s = datetime.datetime.strptime(proc['created_time'], "%Y-%m-%dT%H:%M:%S.%fZ")
         r = datetime.datetime.strptime(proc['resolved_time'], "%Y-%m-%dT%H:%M:%S.%fZ")
         ttr.append(int((r - s).seconds))
-        
 
     report_data['mean_time_to_resolution']  = int(sum_list(ttr)/len(ttr))
+
+
+    #New Binary Reporting
+    #when iterating over binaries: host_count
+    """query os_type server_added_timestamp signed host_count < 10%"""
 
     #Print the results of the queries
     for k in sorted(report_data.keys()):
