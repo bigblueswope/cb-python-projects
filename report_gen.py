@@ -37,7 +37,7 @@ def main():
     report_data = {}
     #Process Statistics
     #for dev purposes this is 3 days ago, the last time my demo has data
-    yd = date.today() - timedelta(0)
+    yd = date.today() - timedelta(1)
     yd = yd.strftime('%Y-%m-%d')
     start_string = 'start:[%sT00:00:00 TO %sT23:59:59]' % (yd, yd)
     
@@ -80,7 +80,7 @@ def main():
 
     # Alert Status
     # Adjust this created_string when ready for prod testing
-    yd = date.today() - timedelta(0)
+    yd = date.today() - timedelta(1)
     yd = yd.strftime('%Y-%m-%d')
     created_string = 'created_time:[%sT00:00:00 TO %sT23:59:59]' % (yd, yd)
     
@@ -108,7 +108,7 @@ def main():
     # Alert Resolution Calculations
     # Adjust this created_string when ready for prod testing
 
-    yd = date.today() - timedelta(0)
+    yd = date.today() - timedelta(1)
     yd = yd.strftime('%Y-%m-%d')
     resolved_string = 'resolved_time:[%sT00:00:00 TO %sT23:59:59]' % (yd, yd)
     
