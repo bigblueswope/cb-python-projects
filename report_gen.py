@@ -1,8 +1,14 @@
 #!/bin/env python
 
-import sys, pprint, argparse, warnings, cbapi
-from cli_parser import build_cli_parser
+import sys, pprint, argparse, warnings, cbapi, datetime
+from cli_parser_tnc import build_cli_parser
 from datetime import date, timedelta
+
+def sum_list(l):
+    sum = 0
+    for x in l:
+        sum += x
+    return sum
 
 def process_query(args):
 
@@ -25,6 +31,16 @@ def alert_query(args):
         answer = cb.alert_search(args.query, rows=args.rows)
     return answer
      
+def alert_iterator(args):
+    # build a cbapi object
+    cb = cbapi.CbApi(args.url, token=args.token, ssl_verify=args.ssl_verify)
+
+    # use the cbapi object to perform a process based search
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        answer = cb.alert_search_iter(args.query)
+    return answer
+    
 def main():
     args = build_cli_parser()
     args.facet_enable='False'
@@ -48,7 +64,7 @@ def main():
 
     args.query = start_string + 'block_status:"ProcessTerminated"'
     answer = process_query(args)
-    report_data['procs_blocked'] = answer['total_results']
+    report_data['procs_terminated'] = answer['total_results']
     
     args.query = start_string + 'block_status:"NotTerminatedSystemProcess"'
     answer = process_query(args)
@@ -114,9 +130,20 @@ def main():
     
     args.query = resolved_string
     answer = alert_query(args)
-    report_data['all_alerts_resolved_yesterday'] = answer['total_results']
+    report_data['alerts_resolved_yesterday'] = answer['total_results']
 
-    #pprint.pprint(report_data)
+    args.query = resolved_string
+    resolved_processes = alert_iterator(args)
+    ttr = []
+    for proc in resolved_processes:
+        s = datetime.datetime.strptime(proc['created_time'], "%Y-%m-%dT%H:%M:%S.%fZ")
+        r = datetime.datetime.strptime(proc['resolved_time'], "%Y-%m-%dT%H:%M:%S.%fZ")
+        ttr.append(int((r - s).seconds))
+        
+
+    report_data['mean_time_to_resolution']  = int(sum_list(ttr)/len(ttr))
+
+    #Print the results of the queries
     for k in sorted(report_data.keys()):
         print k + ': ' + str(report_data[k])
 
