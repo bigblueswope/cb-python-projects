@@ -1,7 +1,7 @@
 #!/bin/env python
 
 import sys, pprint, argparse, warnings, cbapi
-from cli_parser_tnc import build_cli_parser
+from cli_parser import build_cli_parser
 from datetime import date, timedelta
 
 def process_query(args):
