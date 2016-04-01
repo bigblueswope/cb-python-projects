@@ -12,32 +12,32 @@ def sum_list(l):
 
 def process_query(args):
     # build a cbapi object
-    cb = cbapi.CbApi(args.url, token=args.token, ssl_verify=args.ssl_verify, args.facet_enable)
+    cb = cbapi.CbApi(args.url, token=args.token, ssl_verify=args.ssl_verify)
 
     # use the cbapi object to perform a process based search
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
-        answer = cb.process_search(args.query, rows=args.rows)
+        answer = cb.process_search(args.query, rows=args.rows, facet_enable=args.facet_enable)
     return answer
 
 def alert_query(args):
     # build a cbapi object
-    cb = cbapi.CbApi(args.url, token=args.token, ssl_verify=args.ssl_verify, args.facet_enable)
+    cb = cbapi.CbApi(args.url, token=args.token, ssl_verify=args.ssl_verify)
 
     # use the cbapi object to perform a process based search
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
-        answer = cb.alert_search(args.query, rows=args.rows)
+        answer = cb.alert_search(args.query, rows=args.rows, facet_enable=args.facet_enable)
     return answer
      
 def alert_iterator(args):
     # build a cbapi object
-    cb = cbapi.CbApi(args.url, token=args.token, ssl_verify=args.ssl_verify, args.facet_enable)
+    cb = cbapi.CbApi(args.url, token=args.token, ssl_verify=args.ssl_verify)
 
     # use the cbapi object to perform a process based search
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
-        answer = cb.alert_search_iter(args.query)
+        answer = cb.alert_search_iter(args.query, facet_enable=args.facet_enable)
     return answer
     
 def main():
@@ -135,13 +135,29 @@ def main():
         s = datetime.datetime.strptime(proc['created_time'], "%Y-%m-%dT%H:%M:%S.%fZ")
         r = datetime.datetime.strptime(proc['resolved_time'], "%Y-%m-%dT%H:%M:%S.%fZ")
         ttr.append(int((r - s).seconds))
-
-    report_data['mean_time_to_resolution']  = int(sum_list(ttr)/len(ttr))
+    try:
+        report_data['mean_time_to_resolution']  = int(sum_list(ttr)/len(ttr))
+    except ZeroDivisionError:
+        report_data['mean_time_to_resolution'] = 0
 
 
     #New Binary Reporting
     #when iterating over binaries: host_count
     """query os_type server_added_timestamp signed host_count < 10%"""
+
+    '''/api/v1/detect/report/adminsbyalertsresolved/
+/api/v1/detect/report/adminsbyresolvedtime/
+/api/v1/detect/report/alertresolutionaverage/
+/api/v1/detect/report/binarydwell/
+/api/v1/detect/report/currentalertstatus
+/api/v1/detect/report/currentmonitoringstatus
+/api/v1/detect/report/hosthygiene/
+/api/v1/detect/report/unresolvedalerttrend/
+/api/v1/detect/report/unresolvedhostsbytime/
+/api/v1/detect/report/unresolvedusersbytime/
+/api/v1/detect/report/virustotal/unresolvedalertsbytime/
+/api/v1/detect/report/virustotal/unresolvedalerttrend/
+'''
 
     #Print the results of the queries
     for k in sorted(report_data.keys()):

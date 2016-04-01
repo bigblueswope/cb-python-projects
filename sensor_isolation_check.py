@@ -1,7 +1,18 @@
 #!/bin/env python
+# A script to send an email for any Carbon Black sensors that are currently
+#  subject to CB's network isolation.
+# Run this script via a job scheduler such as cron to be notified 
+#  automatically when a sensor is newly isolated
+# The script will track isolated sensors between runs via 
+#  isolated_sensors.txt
+# If a sensor was isolated during the last run it will not be alerted upon
+#  in the current run
 
 __author__ = 'BJSwope'
 import sys, argparse, pprint, warnings, smtplib, cbapi, json
+# cli_parser.py is the file I use to define my cb server and token 
+# so I don't have to provide that info on every execution nor do 
+# I have to include the info in every script.
 from cli_parser import build_cli_parser
 from email.mime.text import MIMEText
 

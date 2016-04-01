@@ -1,9 +1,6 @@
-__author__ = 'BJSwope'
-import sys
+#!/bin/env python
+import sys, cbapi
 from cli_parser import build_cli_parser
-# in the github repo, cbapi is not in the example directory
-sys.path.append('../../cbapi/client_apis/python/src/cbapi/')
-import cbapi 
 
 def run_query(args):
 

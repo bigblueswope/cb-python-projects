@@ -1,7 +1,7 @@
 #!/bin/env python
 
 # stdlib imports
-import re, sys, time, urllib, json, socket, base64, hashlib, ConfigParser, os
+import re, sys, time, json, socket, base64, hashlib, ConfigParser, os
   
 # cb imports
 from cbfeeds import CbReport
