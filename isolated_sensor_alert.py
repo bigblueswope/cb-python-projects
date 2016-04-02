@@ -20,25 +20,21 @@ def send_mail(sensor):
     mail = {}
     if sensor['network_isolation_enabled'] == True: 
         if sensor['is_isolating'] == True:
-            print "Sending enabled and active email."
             msg="Network Isolation enabled and active!\r\n Host: %s\r\nCarbon Black Console: %s\r\n Last Check-In Time: %s\r\n" \
             % (sensor['computer_name'], sensor['url'], sensor['last_checkin_time'])
             msg = MIMEText(msg)
             msg['Subject'] = 'Host Isolation Activated By Carbon Black'
         else:
-            print "Sending enabled but not active email."
             msg="Network Isolation enabled and will activate at next sensor check in.\r\n Host: %s\r\nCarbon Black Console: %s\r\n Last Check-In Time: %s\r\nNext Check-In Time: %s" \
             % (sensor['computer_name'], sensor['url'], sensor['last_checkin_time'], sensor['next_checkin_time'])
             msg = MIMEText(msg)
             msg['Subject'] = 'Host Isolation Enabled By Carbon Black'
     elif sensor['network_isolation_enabled'] == False:
-        print "Sending disabled email."
         msg="Network Isolation disabled and will deactivate at next sensor check in.\r\n Host: %s\r\nCarbon Black Console: %s\r\n Last Check-In Time: %s\r\nNext Check-In Time: %s" \
             % (sensor['computer_name'], sensor['url'], sensor['last_checkin_time'], sensor['next_checkin_time'])
         msg = MIMEText(msg)
         msg['Subject'] = 'Host Isolation Disabled By Carbon Black'
     else:
-        print "Isolation status not defined.  No mail sent."
         return
     
     msg['From'] = 'jswope@bigbluenetworks.com'
