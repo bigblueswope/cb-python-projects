@@ -26,5 +26,7 @@ def build_cli_parser():
                       help="process query ex. hostname:foo and netconn:45.21.30.115")
     parser.add_argument("-m", "--md5", action="store", default=None, dest="md5",
                       help="MD5 of the binary we are interested in.")
+    parser.add_argument("-e", "--sensor", action="store", default=None, dest="sensor",
+                      help="ID of sensor for which we search.")
     args = parser.parse_args()
     return args
