@@ -1,18 +1,17 @@
 #!/bin/env python
-# A script to send an email for any Carbon Black sensors that are currently
-#  subject to CB's network isolation.
-# Run this script via a job scheduler such as cron to be notified 
-#  automatically when a sensor is newly isolated
-# The script will track isolated sensors between runs via 
-#  isolated_sensors.txt
-# If a sensor was isolated during the last run it will not be alerted upon
-#  in the current run
+# A script to send an email for any Carbon Black sensors that have changed 
+#  the state of their network isolation since the last running of this script.
+# Run this script via a job scheduler, such as cron, to be notified 
+#  when a sensor's network isolation state has changed.
+# The script will track isolated sensors between runs via isolated_sensors.txt
 
 __author__ = 'BJSwope'
 import sys, argparse, pprint, warnings, smtplib, cbapi, json, collections
+
 # cli_parser.py is the file I use to define my cb server and token 
 # so I don't have to provide that info on every execution nor do 
 # I have to include the info in every script.
+
 from cli_parser import build_cli_parser
 from email.mime.text import MIMEText
 
@@ -43,8 +42,7 @@ def send_mail(sensor):
         return
     
     msg['From'] = 'jswope@bigbluenetworks.com'
-    msg['To'] = 'khasty@carbonblack.com'
-    #msg['To'] = 'bj@carbonblack.com'
+    msg['To'] = 'bj@carbonblack.com'
     
     s = smtplib.SMTP('localhost')
     s.sendmail(msg['From'], msg['To'], msg.as_string())
@@ -57,15 +55,15 @@ def main():
     fis = f.read()
     f.close()
 
-    with warnings.catch_warnings():
-        warnings.simplefilter("ignore")
-        sensors = cb.sensors()
-   
     try:
         former_iso_sensors = json.loads(fis)
     except ValueError:
         former_iso_sensors = collections.defaultdict(dict)
     
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        sensors = cb.sensors()
+   
     current_iso_sensors = collections.defaultdict(dict)
 
     for sensor in sensors:
@@ -87,12 +85,15 @@ def main():
     f.write(json.dumps(current_iso_sensors))
     f.close()
     
+    #remove current isolations from from former isolations leaving the list of sensors removed from
+    # isolation since the last running of this script
     iso_removed = [item for item in former_iso_sensors if item not in current_iso_sensors]
     for fixed in iso_removed:
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
             sensor = cb.sensor(fixed)
         sensor['url'] = args.url + "/#/host/" + str(sensor['id'])
+        #send notification of isolation removal
         send_mail(sensor)
 
             
