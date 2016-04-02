@@ -66,7 +66,7 @@ def main():
         if sensor['network_isolation_enabled'] == True:
             #sensor should be isolating, add sensor to list of currently iso enabled sensors
             sid = str(sensor['id'])
-            sensor['url'] = args.url + "/#/host/" + str(sensor['id'])
+            sensor['url'] = args.url + "/#/host/" + sid
             current_iso_sensors[sid]['network_isolation_enabled'] = sensor['network_isolation_enabled']
             current_iso_sensors[sid]['is_isolating'] =  sensor['is_isolating']
             try:
@@ -88,11 +88,11 @@ def main():
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
             sensor = cb.sensor(fixed)
-        sensor['url'] = args.url + "/#/host/" + str(sensor['id'])
+        sid = str(sensor['id'])
+        sensor['url'] = args.url + "/#/host/" + sid
         #send notification of isolation removal
         send_mail(sensor)
 
-            
 
 if __name__ == "__main__":
     sys.exit(main())
