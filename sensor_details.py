@@ -12,8 +12,6 @@ def main():
         sensor = cb.sensor(args.sensor)
     
     pprint.pprint(sensor)
-    #for k in sorted(sensor):
-    #    print k
 
 if __name__ == "__main__":
     sys.exit(main())

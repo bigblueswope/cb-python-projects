@@ -28,5 +28,9 @@ def build_cli_parser():
                       help="MD5 of the binary we are interested in.")
     parser.add_argument("-e", "--sensor", action="store", default=None, dest="sensor",
                       help="ID of sensor for which we search.")
+    parser.add_argument("-i", "--id", action="store", default=None, dest="feedid",
+                      help="Id of feed of which the specified report is a part of")
+    parser.add_argument("-R", "--reportid", action="store", default=None, dest="reportid",
+                      help="Id of report to query; this may be alphanumeric")
     args = parser.parse_args()
     return args
