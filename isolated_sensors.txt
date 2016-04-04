@@ -1,1 +1,1 @@
-{}
+{"13": {"is_isolating": false, "network_isolation_enabled": true}}
