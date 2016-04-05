@@ -46,16 +46,8 @@ def build_cli_parser():
     parser.add_argument("-e", "--sensor", action="store", default=None, dest="sensor",
                       help="ID of sensor for which we search.")
     
-    # for scripts that need a feed id use this flag to specify the feed id
-    parser.add_argument("-i", "--id", action="store", default=None, dest="feedid",
-                      help="Id of feed of which the specified report is a part of")
-    
-    # for scripts that need a report id use this flag to specify the report id
-    parser.add_argument("-R", "--reportid", action="store", default=None, dest="reportid",
-                      help="Id of report to query; this may be alphanumeric")
-    
     # for scripts that will parse a URL to use components of the URL use this flag to specify that string to parse
-    parser.add_argument("-p", "--parse_string", action="store", default=None, dest="parse_string"
+    parser.add_argument("-p", "--parse_string", action="store", default=None, dest="parse_string",
                         help="A string to be parsed by the script")
     
     # Used Flags:
