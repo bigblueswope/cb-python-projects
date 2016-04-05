@@ -1,8 +1,13 @@
 #!/bin/env python
 
+# usage:
+#  the -p flag is the URI of the specific threat feed you wish to toggle.
+#  ./feed_report_toggle.py -p https://carbonblack.bit9se.com/#threat-details/43/e6314816-dcc2-45ec-8fef-d430d4a2c7aa
+
 import sys, pprint, argparse, cbapi, warnings, json
 from cli_parser import build_cli_parser
 
+#Dictonary keys are cb servers, values are API tokens
 cb_servers = {
     'carbonblack.bit9se.com': 'fe067f2792a5cf36e1486c4467dd2c473e0990f6',
     'tnc.my.carbonblack.io': 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
@@ -10,10 +15,9 @@ cb_servers = {
 
 
 def main():
+    # builds the args structure, populating with default server and token and creating many flags
+    # we will only use the -p flag here
     args = build_cli_parser()
-    if not args.token:
-        print "Missing required param; run with --help for usage"
-        sys.exit(-1)
     if not args.parse_string:
         print "Missing the url containting the Server, Feed ID and Report ID to parse."
         sys.exit(-1)
@@ -31,21 +35,20 @@ def main():
     report_id = su_list[-1]
     
     if not feed_host in cb_servers:
-        print "%s not in list of cb_servers.  exiting" % (feed_host)
+        print "%s not in list of cb_servers.  Exiting" % (feed_host)
         sys.exit(1)
     args.url = 'https://%s' % (feed_host)
     args.token = cb_servers[feed_host]
 
     cb = cbapi.CbApi(args.url, token=args.token, ssl_verify=args.ssl_verify)
 
-    # retrieve threat report 
+    # retrieve threat report original threat report so we can get the name of the threat feed
+    # the threat feed name will be used to locate the threat feed id on the servers
     with warnings.catch_warnings():
         warnings.simplefilter("ignore")
         report = cb.feed_report_info(feed_id, report_id)
     
     feed_name = report['feed_name']
-    #feed_id = report['feed_id']
-    report_id = report['id']
     
     updated_report = {'ids': {}, 'updates': {}}
     
