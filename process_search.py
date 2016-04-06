@@ -1,7 +1,7 @@
 #!/bin/env python
 
 __author__ = 'BJSwope'
-import sys, argparse
+import sys, argparse, warnings
 from cli_parser import build_cli_parser
 
 # in the github repo, cbapi is not in the example directory
@@ -23,7 +23,9 @@ def main():
         args.query='start:-10080m'
         #ignore the number of rows from the command line and set the row count to 1
         args.rows=1
-        processes = cb.process_search(args.query, rows=args.rows, facet_enable=args.facet_enable)
+        with warnings.catch_warnings():
+            warnings.simplefilter("ignore")
+            processes = cb.process_search(args.query, rows=args.rows, facet_enable=args.facet_enable)
         print "List of fields available to be returned by this script:"
         for process in processes['results']:
             for k in sorted(process.iterkeys()):
@@ -34,8 +36,9 @@ def main():
         sys.stderr.write("No fields specified, will return hostname and cmdline fields. For a list of available fields run the script with the '-l' argument.\n")
         args.fields.append('hostname')
         args.fields.append('cmdline')
-
-    processes = cb.process_search(args.query, rows=args.rows, facet_enable=args.facet_enable)
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        processes = cb.process_search(args.query, rows=args.rows, facet_enable=args.facet_enable)
     
     if processes['total_results'] > args.rows:
         sys.stderr.write("Warning: Query returned %s total results, but only displaying %s results.\n" % (processes['total_results'], args.rows))
