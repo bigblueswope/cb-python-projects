@@ -9,8 +9,8 @@ from cli_parser import build_cli_parser
 
 #Dictonary keys are cb servers, values are API tokens
 cb_servers = {
-    'carbonblack.bit9se.com': 'fe067f2792a5cf36e1486c4467dd2c473e0990f6',
-    'tnc.my.carbonblack.io': 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx'
+    'cbserver1.carbonblackse.com': 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
+    'cbserver2.carbonblackse.com': 'yyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy'
 }
 
 
