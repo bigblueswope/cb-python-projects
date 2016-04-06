@@ -12,18 +12,24 @@ def parent_search(args, pdoc):
     cb = cbapi.CbApi(args.url, token=args.token, ssl_verify=args.ssl_verify)
 
     # use the cbapi object to iterate over all matching process documents
-    r = cb.process_search(args.query)
-    identifier = r['results'][0]['id']
-    seg_id = r['results'][0]['segment_id']
-    
-    events = cb.process_events(identifier, seg_id)
-    for cpe in events['process']['childproc_complete']: 
-        cpe_split = cpe.split('|',)
-        if int(cpe_split[4]) == pdoc['process_pid'] and cpe_split[5] == 'false':
-            process_end_time = datetime.datetime.strptime(cpe_split[0], "%Y-%m-%d %H:%M:%S.%f")
-            return process_end_time
+    try:
+        r = cb.process_search(args.query)
+        identifier = r['results'][0]['id']
+        seg_id = r['results'][0]['segment_id']
+    except:
+        return False
+
+    try:
+        events = cb.process_events(identifier, seg_id)
+        for cpe in events['process']['childproc_complete']:
+            cpe_split = cpe.split('|',)
+            if int(cpe_split[4]) == pdoc['process_pid'] and cpe_split[5] == 'false':
+                process_end_time = datetime.datetime.strptime(cpe_split[0], "%Y-%m-%d %H:%M:%S.%f")
+                return process_end_time
+    except:
+        return False
     return False
-    
+
 def main():
     args = build_cli_parser()
     yesterday = datetime.datetime.now() - datetime.timedelta(days=1)
@@ -32,6 +38,12 @@ def main():
     print "Initial Query: %s", args.query
     # build a cbapi object
     cb = cbapi.CbApi(args.url, token=args.token, ssl_verify=args.ssl_verify)
+    source_set = cb.process_search(args.query)
+    if source_set['total_results'] > 500:
+        print "Total Results: %d" % source_set['total_results']
+        print "More than 500 results to parse, exiting script to spare your CB server."
+        sys.exit(0)
+
 
     # use the cbapi object to iterate over all matching process documents
     answer = cb.process_search_iter(args.query)
@@ -46,7 +58,7 @@ def main():
         if process_end_time:
             end = process_end_time
         else:
-            end = datetiem.datetime.strptime(pdoc['last_update'], "%Y-%m-%dT%H-%M-%S.%fz")
+            end = datetime.datetime.strptime(pdoc['last_update'], "%Y-%m-%dT%H-%M-%S.%fz")
        
         # Start time
         start = datetime.datetime.strptime(pdoc['start'], "%Y-%m-%dT%H:%M:%S.%fZ")
