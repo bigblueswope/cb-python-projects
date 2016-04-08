@@ -6,10 +6,21 @@
 from pprint import pprint
 import logging, csv, sys, os, requests, argparse
 from bit9api import bit9Api
+from logging import handlers
 
-logging.basicConfig()
 requests.packages.urllib3.disable_warnings()
-userhome = os.path.expanduser('~')
+logging.getLogger("requests").setLevel(logging.WARNING)
+
+LOG_FILENAME='initiate_cache_check.log'
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+logger.propagate = False
+handler = logging.handlers.RotatingFileHandler(LOG_FILENAME, maxBytes=1048576,backupCount=5,)
+handler.setLevel(logging.INFO)
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+
 
 def build_cli_parser():
     parser = argparse.ArgumentParser(description="This script initiates Cache Checks using the Bit9 API.")
@@ -34,6 +45,7 @@ def init_cc(bit9, agent_id, ccLevel, refreshFlags):
 
     results = bit9.create(api_obj, data, url_params)
     print "CCLevel %s and Policy Refresh %s scheduled for %s" % (str(results['ccLevel']), str(results['refreshFlags']),  results['name'])
+    logger.info("CCLevel %s and Policy Refresh %s scheduled for %s" % (str(results['ccLevel']), str(results['refreshFlags']),  results['name']))
 
 def main(argv):
     parser = build_cli_parser()
@@ -43,6 +55,7 @@ def main(argv):
         sys.exit(-1)
 
     print "Computer search criteria: %s" % args.query
+    logger.info("Computer search criteria: %s" % args.query)
 
     bit9 = bit9Api (args.server, token=args.token, ssl_verify=args.ssl_verify)
     search_conditions = args.query
@@ -52,6 +65,7 @@ def main(argv):
     for comp in comps:
         if comp['ccLevel'] != 0:
             print "%s already performing a Cache Consistency check.  Skipping this computer." % comp['name']
+            logger.info("%s already performing a Cache Consistency check.  Skipping this computer." % comp['name'])
             continue
 
         agent_id = comp['id']
@@ -65,6 +79,7 @@ def main(argv):
 
         if not ccLevel in ['1', '2','3']:
             print "User response was not '1', '2' or '3'. Skipping cache check for %s!" % comp['name']
+            logger.info("User response was not '1', '2' or '3'. Skipping cache check for %s!" % comp['name'])
             ccLevel = 0
 
 
@@ -80,13 +95,15 @@ def main(argv):
             refreshFlags = 4096
         else:
             print "User response was not '1' or '2'. Skipping policy rules sync for Computer %s!" % comp['name']
+            logger.info("User response was not '1' or '2'. Skipping policy rules sync for Computer %s!" % comp['name'])
             refreshFlags = 0
 
         if ccLevel == 0 and refreshFlags == 0:
             print "\nCache Check and Policy Refresh both unset, skipping %s" % comp['name']
+            logger.info("Cache Check and Policy Refresh both unset, skipping %s" % comp['name'])
             pass
         else:
-            (bit9, agent_id, ccLevel, refreshFlags)
+            init_cc(bit9, agent_id, ccLevel, refreshFlags)
 
 if __name__ == "__main__":
     sys.exit(main(sys.argv[1:]))
