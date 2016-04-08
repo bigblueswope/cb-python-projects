@@ -25,15 +25,15 @@ def build_cli_parser():
                       help="query to select computers to act upon")
     return parser
 
-def init_cc(bit9, agent_id, ccLevel):
-    print "\nWe'll fix it right up! Bit9 Agent ID: %d and Cache Check Level %s" % (agent_id, ccLevel)
+def init_cc(bit9, agent_id, ccLevel, refreshFlags):
+    print "\nWe'll fix it right up! Bit9 Agent ID: %d, Cache Check Level %s and Policy Rule Sync %d" % (agent_id, ccLevel, refreshFlags)
 
     url_params = 'changeDiagnostics=true'
     api_obj = '/v1/computer'
-    data = {'id': agent_id, 'ccLevel': ccLevel}
+    data = {'id': agent_id, 'ccLevel': ccLevel, 'refreshFlags': refreshFlags}
 
     results = bit9.create(api_obj, data, url_params)
-    print "CCLevel " + str(results['ccLevel']) + " scheduled for " +  results['name']
+    print "CCLevel %s and Policy Refresh %s scheduled for %s" % (str(results['ccLevel']), str(results['refreshFlags']),  results['name'])
 
 def main(argv):
     parser = build_cli_parser()
@@ -54,18 +54,39 @@ def main(argv):
             print "%s already performing a Cache Consistency check.  Skipping this computer." % comp['name']
             continue
 
+        agent_id = comp['id']
+
         ccLevel = raw_input("\n\nInitiate Cache Check for Computer '%s' in policy '%s'\n"
                              "Cache consistency check level can be one of:\n"
                              "0 = None\n"
                              "1 = Quick verification\n"
                              "2 = Rescan known files\n"
                              "3 = Full scan for new files: [0,1,2,3] " % (comp['name'], comp['policyName']))
-        if ccLevel in ['1', '2','3']:
-            agent_id = comp['id']
-            init_cc(bit9, agent_id, ccLevel)
-        else:
+
+        if not ccLevel in ['1', '2','3']:
             print "User response was not '1', '2' or '3'. Skipping cache check for %s!" % comp['name']
+            ccLevel = 0
+
+
+        refreshFlags = raw_input("\nRequest Resync of Policy Rules for Computer '%s' in policy '%s'\n"
+                                 "Resync of policy rules can be one of:\n"
+                                 "0 = None\n"
+                                 "1 = Refresh confg list\n"
+                                 "2 = Refresh config list from the file: [0,1,2] " % (comp['name'], comp['policyName']))
+
+        if refreshFlags == '1':
+            refreshFlags = 32
+        elif refreshFlags == '2':
+            refreshFlags = 4096
+        else:
+            print "User response was not '1' or '2'. Skipping policy rules sync for Computer %s!" % comp['name']
+            refreshFlags = 0
+
+        if ccLevel == 0 and refreshFlags == 0:
+            print "\nCache Check and Policy Refresh both unset, skipping %s" % comp['name']
             pass
+        else:
+            (bit9, agent_id, ccLevel, refreshFlags)
 
 if __name__ == "__main__":
     sys.exit(main(sys.argv[1:]))
