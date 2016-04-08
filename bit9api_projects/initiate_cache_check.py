@@ -21,7 +21,7 @@ def build_cli_parser():
                       help="API Token for Carbon Black server")
     parser.add_argument("-n", "--ssl-verify", action="store", default=False, dest="ssl_verify",
                       help="Verify server SSL certificate. Defaults to 'False': Do not verify.")
-    parser.add_argument("-q", "--query", action="store", default=None, dest="query",
+    parser.add_argument("-q", "--query", action="append", default=[], dest="query",
                       help="query to select computers to act upon")
     return parser
 
@@ -45,7 +45,7 @@ def main(argv):
     print "Computer search criteria: %s" % args.query
 
     bit9 = bit9Api (args.server, token=args.token, ssl_verify=args.ssl_verify)
-    search_conditions = [args.query]
+    search_conditions = args.query
 
     comps = bit9.search('v1/computer', search_conditions)
 
