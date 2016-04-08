@@ -3,11 +3,6 @@
 import sys, time, pprint, argparse, cbapi, warnings
 from cli_parser import build_cli_parser
 
-"""    parser.add_option("-i", "--id", action="store", default=None, dest="feedid",
-                      help="Id of feed of which the specified report is a part of")
-    parser.add_option("-r", "--reportid", action="store", default=None, dest="reportid",
-                      help="Id of report to query; this may be alphanumeric")
-"""
 
 def get_ioc_counts(iocs):
     """
