@@ -10,9 +10,9 @@ userhome = os.path.expanduser('~')
 csv_name = userhome + '/Desktop/test.csv'
 
 server='https://bit9server.bit9se.com/'
-api_key='AACB5C5F-D9B4-4694-AB9A-8640FF79D401'
+api_token= 'AACB5C5F-D9B4-4694-AB9A-8640FF79D401'
 
-bit9 = bit9Api (server, token=api_key, ssl_verify=False)
+bit9 = bit9Api (server, token=api_token, ssl_verify=False)
 search_conditions = ['']
 #search_conditions = ['uninstalled:False']
 
