@@ -15,9 +15,9 @@ LOG_FILENAME='initiate_cache_check.log'
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 logger.propagate = False
+formatter = logging.Formatter("%(asctime)s - %(funcName)s - %(levelname)s - %(message)s")
 handler = logging.handlers.RotatingFileHandler(LOG_FILENAME, maxBytes=1048576,backupCount=5,)
 handler.setLevel(logging.INFO)
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
