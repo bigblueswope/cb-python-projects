@@ -46,8 +46,6 @@ def main():
     
     #for each host who has run notepad.exe
     for host in d.keys():
-        #print host, d[host]
-        #print ""
         # time_list will contain the integer values of the process start times
         time_list = []
         #k is the string representing the process' start time which we convert to in integer so we can compare it to a range of integers
