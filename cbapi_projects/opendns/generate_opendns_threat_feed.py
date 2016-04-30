@@ -9,8 +9,7 @@ requests.packages.urllib3.disable_warnings()
 #    the location.
 r = requests.get('http://192.168.230.202/custom_feeds/opendns_threat_feed.json')
 s = json.loads(r.text)
-pprint.pprint(s)
-print "################################"
+
 #build a nested dictionary
 #  outer dict keyed upon the Destination Domain reported from OpenDNS
 #  inner dict keys are the various components of a Threat Report
@@ -18,13 +17,15 @@ new_domains = collections.defaultdict(lambda: collections.defaultdict(int))
 
 #expiration dates: if a threat report is older than m90, we will set the IOCs to empty
 #   if the threat report is older than m120, we will delete the entire report
-m90 = (datetime.datetime.now() - datetime.timedelta(days=2)).strftime('%s')
+m90 = (datetime.datetime.now() - datetime.timedelta(days=90)).strftime('%s')
 m120 = (datetime.datetime.now() - datetime.timedelta(days=120)).strftime('%s')
 
 # To pull additional domains from the OpenDNS csv file add the category to this list
 interesting_categories = ['Botnet', 'ShoeLaces', 'AnotherDummyCategory']
 
+# securityActivity.zip is the zip file OpenDNS will send every day with the csv in it
 a = zipfile.ZipFile('securityActivity.zip')
+# securityActivity.csv is the report listing all the domains that were blocked.
 b = a.open('securityActivity.csv', 'r') 
 for row in csv.DictReader(b):
     if row['Categories'] in interesting_categories:
@@ -48,7 +49,9 @@ for row in csv.DictReader(b):
         else:
             new_domains[row['Destination']]['timestamp'] = epoch
        
+#create a list index so we can track which item from the threat reports we are working on and updating
 l_index = 0
+
 #iterate over the existing threat reports 
 for i in s['reports']:
     #iterate over the domains we picked up from the latest OpenDNS report
@@ -58,6 +61,9 @@ for i in s['reports']:
             i['timestamp'] = new_domains[j]['timestamp']
             # the domain already exists in the threat feed so we will delete it from the new domains dict
             new_domains.pop(j,None)
+    
+    #Commenting out the below section because it may not actually have an effect. From what I'm told we don't delete threat reports, ever.
+    '''
     #delete reports that havent updated in 90 days
     # according to https://github.com/carbonblack/cbfeeds increment the timestamp and remove IOCs to have the report deleted
     if i['timestamp'] <= m90:
@@ -65,13 +71,21 @@ for i in s['reports']:
         s['reports'][l_index]['timestamp'] = i['timestamp'] + 1
         # delete the IOC
         s['reports'][l_index]['iocs'] = {}
+    
+    # If the report is over 120 days old, in theory it has been marked for deletion for 30 days and should be out of the feed on the CB server
+    #  So we are just going to completely whack the entry from the opendns_threat_feed.json
+    if i['timestamp'] <= m120:
+        s['reports'][l_index].pop()
+    '''
+    #increment the list index
     l_index += 1
 
 # any domains remaining in the new domains dict did not match an existing threat report so lets append its data to the threat feed
 for j in new_domains.keys():
     s['reports'].append(new_domains[j])
     
-pprint.pprint(s)
+# This is the out file to which we will write the threat feed
+# Change this path to match your web server's directory where the file will be hosted
 with open('/var/www/html/custom_feeds/opendns_threat_feed.json', 'w') as outfile:
     json.dump(s, outfile)
 
