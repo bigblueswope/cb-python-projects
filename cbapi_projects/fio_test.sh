@@ -32,7 +32,7 @@ disk_free=$(df -k ${cb_data_dir} | grep -v Used | awk -F' '  'NR >1 {print $3}')
 disk_free=$((${disk_free} * 1024 ))
 
 min_free=16000000000
-if [ ${disk_free} -ge ${min_free} ]
+if [ ${disk_free} -le ${min_free} ]
 	then
 	echo "${cb_data_dir} freespace = ${disk_free} bytes"
 	echo "Test requires minimum of 16 GB free space in ${cb_data_dir}"
