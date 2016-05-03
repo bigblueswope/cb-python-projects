@@ -15,6 +15,7 @@ then
 fi
 
 now=$(date +"%Y%m%d_%H%M%S")
+ClusterMembership=$(grep ClusterMembership /etc/cb/cb.conf | awk -F'=' '{print $2}')
 cb_data_dir=$(grep DatastoreRootDir /etc/cb/cb.conf  | awk -F'=' '{print $2 "/"}')
 fio_config_dir=$(grep "directory=" /usr/share/cb/diag/basic_rw_randseq_tests.fio | awk -F '=' '{print $2}')
 
@@ -45,8 +46,20 @@ service_status=$(service cb-enterprise status | grep -v stopped )
 if [ -n "${service_status}" ]
 then
 	echo "${service_status}"
-	echo "cb-enterprise service(s) still running. Please stop the services before running the test."
-	exit 1
+	echo "cb-enterprise service(s) still running."
+	echo "fio test must be run with CB services halted."
+	if [ ${ClusterMembership} == 'Standalone' ]
+	then
+		read -p "Shall we stop them for you? [y/N]: " yn
+    	case $yn in
+        	[Yy]* ) service cb-enterprise stop ;;
+        	* ) echo "Exiting script so you can stop the services." ; exit 1;;
+    	esac
+	else
+		echo "this server is part of a clustered environment."
+		echo "exiting the script so you can stop the cluster."
+		exit 1
+	fi
 fi
 
 token=$(cat /etc/cb/server.token | grep "token=" | awk -F '=' '{print $2}')
@@ -56,19 +69,41 @@ echo "Changing directory to ${cb_data_dir}"
 cd ${cb_data_dir}
 
 echo "Running FIO test now."
-echo "Results will be written to ${results}"
+echo "Results will be written to ${cb_data_dir}${results}"
 echo -e "The test may take up to 4 minutes to complete.\n"
 
-fio /usr/share/cb/diag/basic_rw_randseq_tests.fio --output ${results}
-echo "token=${token}" >> ${results}
+#fio /usr/share/cb/diag/basic_rw_randseq_tests.fio --output ${cb_data_dir}${results}
+echo "token=${token}" >> ${cb_data_dir}${results}
+
+rm ${cb_data_dir}random-reads.1.0 2> /dev/null
+rm ${cb_data_dir}sequential-reads.2.0 2> /dev/null
+rm ${cb_data_dir}random-writes.3.0 2> /dev/null
+rm ${cb_data_dir}sequential-writes.4.0 2> /dev/null
 
 for filename in $(ls ${cb_data_dir}{random,sequential}-* 2>/dev/null)
 do
     echo "${filename} remains on disk.  Please manually remove it."
 done
 
-echo -e "To send results to CB support, after starting cb-enterprise, issue the following command:\n\n/usr/share/cb/cbpost ${results}\n\n"
+if [ ${ClusterMembership} == 'Standalone' ]
+then
+	read -p "Shall we start the CB services for you? [y/N]: " yn
+	case $yn in
+		[Yy]* ) service cb-enterprise start ;
+			read -p "Shall we upload the results to Carbon Black? [y/N]: " upyn
+			case $upyn in
+				[Yy]* ) /usr/share/cb/cbpost ${cb_data_dir}${results} ;;
+				* ) echo -e "To send results to CB support issue the following command:\n\n/usr/share/cb/cbpost ${cb_data_dir}${results}\n\n" ;;
+			esac ;;
+		* ) echo "Tests completed.  Please restart cb-enterprise" ;;
+	esac
+else
+	echo "This server is part of a clustered environment."
+	echo "Please start the cluster once testing is complete."
+	echo -e "To send results to CB support, after starting cb-enterprise, issue the following command:\n\n/usr/share/cb/cbpost ${cb_data_dir}${results}\n\n"
+	
+fi
 
-echo "Tests completed.  Please restart cb-enterprise"
+
 
 
