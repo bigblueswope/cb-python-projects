@@ -16,9 +16,6 @@ fi
 
 now=$(date +"%Y%m%d_%H%M%S")
 cb_data_dir=$(grep DatastoreRootDir /etc/cb/cb.conf  | awk -F'=' '{print $2 "/"}')
-echo "Changing directory to ${cb_data_dir}"
-cd ${cb_data_dir}
-
 fio_config_dir=$(grep "directory=" /usr/share/cb/diag/basic_rw_randseq_tests.fio | awk -F '=' '{print $2}')
 
 if [ ${cb_data_dir} != ${fio_config_dir} ]
@@ -54,6 +51,9 @@ fi
 
 token=$(cat /etc/cb/server.token | grep "token=" | awk -F '=' '{print $2}')
 results="fio_results_${token}_${now}.txt"
+
+echo "Changing directory to ${cb_data_dir}"
+cd ${cb_data_dir}
 
 echo "Running FIO test now."
 echo "Results will be written to ${results}"
