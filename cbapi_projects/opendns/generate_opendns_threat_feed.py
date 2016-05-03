@@ -1,6 +1,6 @@
 #!/bin/env python
 
-import zipfile, csv, collections, time, requests, json, pprint, hashlib, datetime
+import os,zipfile, csv, collections, time, requests, json, pprint, hashlib, datetime
 
 requests.packages.urllib3.disable_warnings()
 
@@ -49,6 +49,15 @@ for row in csv.DictReader(b):
         else:
             new_domains[row['Destination']]['timestamp'] = epoch
        
+a.close()
+
+# Move zipfile to zipfile_todays_date
+now = datetime.datetime.now()
+now = now.strftime("%Y%m%d_%H%M%S")
+new_name = "securityActivity_%s.zip" % now
+os.rename("securityActivity.zip", new_name)
+
+
 #create a list index so we can track which item from the threat reports we are working on and updating
 l_index = 0
 
