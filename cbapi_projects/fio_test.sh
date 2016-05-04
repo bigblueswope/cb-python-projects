@@ -72,7 +72,7 @@ echo "Running FIO test now."
 echo "Results will be written to ${cb_data_dir}${results}"
 echo -e "The test may take up to 4 minutes to complete.\n"
 
-#fio /usr/share/cb/diag/basic_rw_randseq_tests.fio --output ${cb_data_dir}${results}
+fio /usr/share/cb/diag/basic_rw_randseq_tests.fio --output ${cb_data_dir}${results}
 echo "token=${token}" >> ${cb_data_dir}${results}
 
 rm ${cb_data_dir}random-reads.1.0 2> /dev/null
