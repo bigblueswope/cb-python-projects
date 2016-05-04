@@ -95,7 +95,8 @@ then
 				[Yy]* ) /usr/share/cb/cbpost ${cb_data_dir}${results} ;;
 				* ) echo -e "To send results to CB support issue the following command:\n\n/usr/share/cb/cbpost ${cb_data_dir}${results}\n\n" ;;
 			esac ;;
-		* ) echo "Tests completed.  Please restart cb-enterprise" ;;
+		* ) echo "Tests completed.  Please restart cb-enterprise" ;
+			echo -e "To send results to CB support, after starting cb-enterprise, issue the following command:\n\n/usr/share/cb/cbpost ${cb_data_dir}${results}\n\n" ;;
 	esac
 else
 	echo "This server is part of a clustered environment."
