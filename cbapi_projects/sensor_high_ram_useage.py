@@ -25,7 +25,7 @@ def main():
         """
         sensors = cb.sensors(query_parameters)
     for sensor in sensors:
-        if sensor['uninstalled'] != 'False' and sensor['status'] == 'Online':
+        if sensor['uninstalled'] != 'True' and sensor['status'] == 'Online':
             r = cb.sensor_resourcestatus(sensor['id'])
             if r:
                 p = json.loads(r)
