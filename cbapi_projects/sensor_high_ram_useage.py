@@ -4,6 +4,22 @@ __author__ = 'BJSwope'
 import sys, argparse, cbapi, pprint, warnings, json
 from cli_parser import build_cli_parser
 
+
+
+"""
+This script access a part of the CB Response API that did not have it's own function added in the CB API helper 
+library cbapi.py that is a part of the CarbonBlack GitHub repo.  I added a new function to cbapi.py to access
+the CB Response API information that is needed.  Here's the code that was added to my cbapi.py:
+
+    def sensor_resourcestatus(self, sensor_id):
+        '''
+        get resourve utilization for a single sensor, as specified by sensor id
+        '''
+        r = self.cbapi_get("%s/api/v1/sensor/%s/resourcestatus" % (self.server, sensor_id))
+        r.raise_for_status()
+        return r.text
+"""
+
 def main():
     args = build_cli_parser()
     cb = cbapi.CbApi(args.url, token=args.token, ssl_verify=args.ssl_verify, ignore_system_proxy=True)
