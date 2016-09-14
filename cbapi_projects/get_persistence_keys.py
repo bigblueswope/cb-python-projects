@@ -13,7 +13,7 @@ sensor_id = raw_input()
 sensor = c.select(Sensor, sensor_id)
 
 #Environment variables  for later consideration/extension of this script
-#HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\ Control\ Session Manager\ Environment
+#HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\Session Manager\Environment
 
 #Autoruns
 # autoruns source: http://www.forensicswiki.org/wiki/Windows_Registry#Persistence_keys
