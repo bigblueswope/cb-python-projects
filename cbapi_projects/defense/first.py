@@ -45,7 +45,7 @@ def parse_return(r):
 		sys.exit(0)
 
 url = 'https://api5.conferdeploy.net/integrationServices/v3/event?applicationName=powershell.exe&rows=1000'
-headers = {'X-Auth-Token': 'N4KRF8FC9SBQYHWUWDPVMBZ5/ZY5WDSJMCU'}
+headers = {'X-Auth-Token': 'thelongone/theshortone'}
 r = requests.get(url, headers=headers)
 
 foo = parse_return(r)

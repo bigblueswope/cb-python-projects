@@ -6,8 +6,7 @@ import requests.packages.urllib3
 requests.packages.urllib3.disable_warnings()
 
 url = 'https://api5.conferdeploy.net/integrationServices/v3/event?applicationName=powershell.exe&rows=1000&searchWindow=2w'
-#headers = {'X-Auth-Token': 'N4KRF8FC9SBQYHWUWDPVMBZ5/ZY5WDSJMCU'}
-headers = {'X-Auth-Token': '3HCVKVWUUVZPK1A8RUBFNAZ6/R21LPB37UC'}
+headers = {'X-Auth-Token': 'thelongone/theshortone'}
 r = requests.get(url, headers=headers)
 foo = r.json()
 
