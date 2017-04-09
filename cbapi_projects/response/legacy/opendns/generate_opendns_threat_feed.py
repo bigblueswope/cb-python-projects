@@ -43,7 +43,7 @@ for row in csv.DictReader(b):
         new_domains[row['Destination']]['iocs']['dns'] = []
         new_domains[row['Destination']]['iocs']['dns'].append(row['Destination'])
         
-        #if the because the OpenDNS csv will have multiple occurences of the same domain, use the most recent timestamp
+        # because the OpenDNS csv will have multiple occurences of the same domain, use the most recent timestamp
         if new_domains[row['Destination']]['timestamp'] >= epoch:
             pass
         else:
