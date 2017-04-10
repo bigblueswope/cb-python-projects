@@ -21,7 +21,7 @@ def main():
 	for sensor in sensors:
 		sensor_details = []
 		for i in field_list:
-			getattr(sensor, i, "")
+			sensor_details.append(getattr(sensor, i, ""))
 		wr.writerow(sensor_details)
 
 if __name__ == "__main__":
