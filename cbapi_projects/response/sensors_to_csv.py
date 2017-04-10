@@ -4,9 +4,6 @@ __author__ = 'BJSwope'
 import sys
 import csv
 from cbapi.response import CbEnterpriseResponseAPI, Sensor
-import pprint
-
-pp = pprint.PrettyPrinter(indent=4)
 
 
 outfile=open("sensors.csv","wb")
@@ -14,21 +11,17 @@ wr = csv.writer(outfile, quoting=csv.QUOTE_ALL)
 
 def main():
 	c = CbEnterpriseResponseAPI(profile="default")
-	sensors = c.select(Sensor)
+	sensor = c.select(Sensor).first()
 	field_list = []
-	for sensor in sensors:
-		for k in sorted(sensor._info):
-			field_list.append(k)
-		break
+	for k in sorted(sensor._info):
+		field_list.append(k)
 	wr.writerow(field_list)
 
+	sensors = c.select(Sensor)
 	for sensor in sensors:
 		sensor_details = []
 		for i in field_list:
-			try:
-				sensor_details.append(sensor._info[i])
-			except AttributeError:
-				sensor_details.append("")
+			getattr(sensor, i, "")
 		wr.writerow(sensor_details)
 
 if __name__ == "__main__":
