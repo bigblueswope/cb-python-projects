@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-
+# Reference URL:
+# https://developer.carbonblack.com/reference/enterprise-response/5.1/rest-api/#binary-search
 import sys
 import datetime
 from cbapi.response.models import Binary
