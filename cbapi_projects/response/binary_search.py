@@ -19,9 +19,17 @@ def main():
 
     # for each result 
     for binary in binary_query:
-        s = datetime.datetime.strptime(binary.server_added_timestamp, "%Y-%m-%dT%H:%M:%S.%fZ")
-        now = datetime.datetime.utcnow()
-        dwell_time = now-s
+        try: 
+            s = datetime.datetime.strptime(binary.server_added_timestamp, "%Y-%m-%dT%H:%M:%S.%fZ")
+            now = datetime.datetime.utcnow()
+            dwell_time = now-s
+        except ValueError:
+            try:
+                s = datetime.datetime.strptime(binary.server_added_timestamp, "%Y-%m-%dT%H:%M:%SZ")
+                now = datetime.datetime.utcnow()
+                dwell_time = now-s
+            except ValueError:
+                dwell_time = "Indeterminate"
         print binary
         print ("=" * 80)
         print(binary.md5sum)
