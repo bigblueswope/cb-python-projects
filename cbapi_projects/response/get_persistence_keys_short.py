@@ -10,6 +10,7 @@ c = CbEnterpriseResponseAPI()
 
 print("Enter Sensor ID")
 sensor_id = raw_input()
+#sensor will be an object pointing to the sensor with sensor_id
 sensor = c.select(Sensor, sensor_id)
 
 #Environment variables  for later consideration/extension of this script
@@ -45,6 +46,7 @@ def lookup_registry_entry(t):
 	
 
 try:
+	#establishes a LR session to the sensor we defined earlier
 	with sensor.lr_session() as session:  # this will wait until the Live Response session is established
 		for ar in autoruns:
 			# In the format of the http://www.forensicswiki.org page on persistence keys
