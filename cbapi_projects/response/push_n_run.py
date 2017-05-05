@@ -52,6 +52,6 @@ with sensor.lr_session() as session:	# this will wait until the Live Response se
 	session.create_process("cmd.exe /c collect_system_info.bat")	# output has the stdout from running collect_system_info.bat
 	print "Sleeping 15 seconds before retrieving the output."
 	time.sleep(15)
-	results = session.get_file("foo2.txt")
+	results = session.get_file("system_info.txt")
 	print results
 

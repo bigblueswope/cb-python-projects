@@ -1,52 +1,52 @@
 @echo off
 cls
 
-echo **************************** > foo2.txt
-echo *         DATE             *  >> foo2.txt
-echo ****************************  >> foo2.txt
-echo %DATE% >> foo2.txt
-echo.  >> foo2.txt
-echo ****************************  >> foo2.txt
-echo *         TIME             *  >> foo2.txt
-echo ****************************  >> foo2.txt
-echo %TIME% >> foo2.txt
-echo.  >> foo2.txt
-echo ****************************  >> foo2.txt
-echo *         SYSTEMINFO       *  >> foo2.txt
-echo ****************************  >> foo2.txt
-systeminfo  >> foo2.txt
-echo ****************************  >> foo2.txt
-echo *         NET USER         *  >> foo2.txt
-echo ****************************  >> foo2.txt
-net user  >> foo2.txt
-echo.  >> foo2.txt
-echo ****************************  >> foo2.txt
-echo *         NET GROUP        *  >> foo2.txt
-echo ****************************  >> foo2.txt
-::net group  >> foo2.txt
-echo.  >> foo2.txt
-echo ****************************  >> foo2.txt
-echo *         IP CONFIG        *  >> foo2.txt
-echo ****************************  >> foo2.txt
-ipconfig /all  >> foo2.txt
-echo.  >> foo2.txt
-echo ****************************  >> foo2.txt
-echo *         ROUTE TABLE      *  >> foo2.txt
-echo ****************************  >> foo2.txt
-route print  >> foo2.txt
-echo.  >> foo2.txt
-echo ****************************  >> foo2.txt
-echo *         ARP TABLE        *  >> foo2.txt
-echo ****************************  >> foo2.txt
-arp -a  >> foo2.txt
-echo.  >> foo2.txt
-echo ****************************  >> foo2.txt
-echo *         DNS INFO         *  >> foo2.txt
-echo ****************************  >> foo2.txt
-ipconfig /displaydns  >> foo2.txt
-echo.  >> foo2.txt
-echo ****************************  >> foo2.txt
-echo *         NETSTAT          *  >> foo2.txt
-echo ****************************  >> foo2.txt
-netstat -abn  >> foo2.txt
-echo.  >> foo2.txt
+echo **************************** > system_info.txt
+echo *         DATE             *  >> system_info.txt
+echo ****************************  >> system_info.txt
+echo %DATE% >> system_info.txt
+echo.  >> system_info.txt
+echo ****************************  >> system_info.txt
+echo *         TIME             *  >> system_info.txt
+echo ****************************  >> system_info.txt
+echo %TIME% >> system_info.txt
+echo.  >> system_info.txt
+echo ****************************  >> system_info.txt
+echo *         SYSTEMINFO       *  >> system_info.txt
+echo ****************************  >> system_info.txt
+systeminfo  >> system_info.txt
+echo ****************************  >> system_info.txt
+echo *         NET USER         *  >> system_info.txt
+echo ****************************  >> system_info.txt
+net user  >> system_info.txt
+echo.  >> system_info.txt
+echo ****************************  >> system_info.txt
+echo *         NET GROUP        *  >> system_info.txt
+echo ****************************  >> system_info.txt
+::net group  >> system_info.txt
+echo.  >> system_info.txt
+echo ****************************  >> system_info.txt
+echo *         IP CONFIG        *  >> system_info.txt
+echo ****************************  >> system_info.txt
+ipconfig /all  >> system_info.txt
+echo.  >> system_info.txt
+echo ****************************  >> system_info.txt
+echo *         ROUTE TABLE      *  >> system_info.txt
+echo ****************************  >> system_info.txt
+route print  >> system_info.txt
+echo.  >> system_info.txt
+echo ****************************  >> system_info.txt
+echo *         ARP TABLE        *  >> system_info.txt
+echo ****************************  >> system_info.txt
+arp -a  >> system_info.txt
+echo.  >> system_info.txt
+echo ****************************  >> system_info.txt
+echo *         DNS INFO         *  >> system_info.txt
+echo ****************************  >> system_info.txt
+ipconfig /displaydns  >> system_info.txt
+echo.  >> system_info.txt
+echo ****************************  >> system_info.txt
+echo *         NETSTAT          *  >> system_info.txt
+echo ****************************  >> system_info.txt
+netstat -abn  >> system_info.txt
+echo.  >> system_info.txt
