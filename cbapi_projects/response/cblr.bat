@@ -1,53 +1,52 @@
 @echo off
 cls
 
-echo **************************** > cblr.txt
-echo *         DATE             * >> cblr.txt
-echo **************************** >> cblr.txt
-echo. | date >> cblr.txt
-echo. >> cblr.txt
-echo **************************** >> cblr.txt
-echo *         TIME             * >> cblr.txt
-echo **************************** >> cblr.txt
-echo. | time >> cblr.txt
-echo. >> cblr.txt
-echo **************************** >> cblr.txt
-echo *         SYSTEMINFO       * >> cblr.txt
-echo **************************** >> cblr.txt
-echo. | systeminfo >> cblr.txt
-echo. >> cblr.txt
-echo **************************** >> cblr.txt
-echo *         NET USER         * >> cblr.txt
-echo **************************** >> cblr.txt
-echo. | net user >> cblr.txt
-echo. >> cblr.txt
-echo **************************** >> cblr.txt
-echo *         NET GROUP        * >> cblr.txt
-echo **************************** >> cblr.txt
-echo. | net group >> cblr.txt
-echo. >> cblr.txt
-echo **************************** >> cblr.txt
-echo *         IP CONFIG        * >> cblr.txt
-echo **************************** >> cblr.txt
-echo. | ipconfig /all >> cblr.txt
-echo. >> cblr.txt
-echo **************************** >> cblr.txt
-echo *         ROUTE TABLE      * >> cblr.txt
-echo **************************** >> cblr.txt
-echo. | route print >> cblr.txt
-echo. >> cblr.txt
-echo **************************** >> cblr.txt
-echo *         ARP TABLE        * >> cblr.txt
-echo **************************** >> cblr.txt
-echo. | arp -a >> cblr.txt
-echo. >> cblr.txt
-echo **************************** >> cblr.txt
-echo *         DNS INFO         * >> cblr.txt
-echo **************************** >> cblr.txt
-echo. | ipconfig /displaydns >> cblr.txt
-echo. >> cblr.txt
-echo **************************** >> cblr.txt
-echo *         NETSTAT          * >> cblr.txt
-echo **************************** >> cblr.txt
-echo. | netstat -abn >> cblr.txt
-echo. >> cblr.txt
+echo **************************** > foo2.txt
+echo *         DATE             *  >> foo2.txt
+echo ****************************  >> foo2.txt
+echo %DATE% >> foo2.txt
+echo.  >> foo2.txt
+echo ****************************  >> foo2.txt
+echo *         TIME             *  >> foo2.txt
+echo ****************************  >> foo2.txt
+echo %TIME% >> foo2.txt
+echo.  >> foo2.txt
+echo ****************************  >> foo2.txt
+echo *         SYSTEMINFO       *  >> foo2.txt
+echo ****************************  >> foo2.txt
+systeminfo  >> foo2.txt
+echo ****************************  >> foo2.txt
+echo *         NET USER         *  >> foo2.txt
+echo ****************************  >> foo2.txt
+net user  >> foo2.txt
+echo.  >> foo2.txt
+echo ****************************  >> foo2.txt
+echo *         NET GROUP        *  >> foo2.txt
+echo ****************************  >> foo2.txt
+::net group  >> foo2.txt
+echo.  >> foo2.txt
+echo ****************************  >> foo2.txt
+echo *         IP CONFIG        *  >> foo2.txt
+echo ****************************  >> foo2.txt
+ipconfig /all  >> foo2.txt
+echo.  >> foo2.txt
+echo ****************************  >> foo2.txt
+echo *         ROUTE TABLE      *  >> foo2.txt
+echo ****************************  >> foo2.txt
+route print  >> foo2.txt
+echo.  >> foo2.txt
+echo ****************************  >> foo2.txt
+echo *         ARP TABLE        *  >> foo2.txt
+echo ****************************  >> foo2.txt
+arp -a  >> foo2.txt
+echo.  >> foo2.txt
+echo ****************************  >> foo2.txt
+echo *         DNS INFO         *  >> foo2.txt
+echo ****************************  >> foo2.txt
+ipconfig /displaydns  >> foo2.txt
+echo.  >> foo2.txt
+echo ****************************  >> foo2.txt
+echo *         NETSTAT          *  >> foo2.txt
+echo ****************************  >> foo2.txt
+netstat -abn  >> foo2.txt
+echo.  >> foo2.txt
