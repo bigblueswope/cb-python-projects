@@ -53,5 +53,25 @@ with sensor.lr_session() as session:	# this will wait until the Live Response se
 	print "Sleeping 15 seconds before retrieving the output."
 	time.sleep(15)
 	results = session.get_file("system_info.txt")
+	print "Delete the collection batch file? (y/N)"
+	dbf = raw_input()
+	try:
+		if dbf[0] in ['y','Y']:
+			session.delete_file('collect_system_info.bat')
+		else:
+			print "Response did not start with 'Y' or 'y', leaving collect_system_info.bat on disk"
+	except IndexError as e:
+		print "No response received.  Leaving collect_system_info.bat on disk."
+	
+	print "Delete system_info.txt? (y/N)"
+	drf = raw_input()
+	try:
+		if drf[0] in ['y','Y']:
+			session.delete_file('system_info.txt')
+		else:
+			print "Response did not start with 'Y' or 'y', leaving system_info.txt on disk"
+	except IndexError as e:
+		print "No response received.  Leaving system_info.txt on disk."
+
 	print results
 
