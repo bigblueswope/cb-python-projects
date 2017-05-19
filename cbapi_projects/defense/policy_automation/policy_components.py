@@ -25,7 +25,7 @@ actions = {
     'Ignore': 'IGNORE'
 }
 
-# If you desire something other than what is set her
+# If you desire something other than what is set here
 #  You can edit the values in av_config and the policy
 #  will be created with a new default value
 av_config = {
