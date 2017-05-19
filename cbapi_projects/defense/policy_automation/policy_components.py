@@ -32,11 +32,11 @@ av_config = {
     'avSettings': {
         'features': [
             {
-                'enabled': 'false',
+                'enabled': 'true',
                 'name': 'SIGNATURE_UPDATE'
             },
             {
-                'enabled': 'false',
+                'enabled': 'true',
                 'name': 'ONACCESS_SCAN'
             },
             {
@@ -62,8 +62,8 @@ av_config = {
         'signatureUpdate': {
             'schedule': {
                 'fullIntervalHours': 0,
-                'initialRandomDelayHours': 4,
-                'intervalHours': 4
+                'initialRandomDelayHours': 1,
+                'intervalHours': 2
             }
         },
         'updateServers': {
@@ -160,7 +160,7 @@ sensor_config = {
         },
         {
             'name': 'SCAN_EXECUTE_ON_NETWORK_DRIVE',
-            'value': 'false'
+            'value': 'true'
         },
         {
             'name': 'DELAY_EXECUTE',

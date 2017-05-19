@@ -11,11 +11,12 @@ def main():
     parser = build_cli_parser("Print processes")
 
     args = parser.parse_args()
-    args.profile="fs"
+    args.profile="default"
     cb = get_cb_response_object(args)
 
-    for proc in cb.select(Process).where("sensor_id:22122 process_name:cmd.exe cmdline:&&"):
+    for proc in cb.select(Process).where("process_name:notepad.exe hostname:w2k12"):
         print proc
+        print "############"
 
 if __name__ == "__main__":
     sys.exit(main())

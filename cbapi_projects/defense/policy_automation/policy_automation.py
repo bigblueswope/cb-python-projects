@@ -104,7 +104,18 @@ def import_policy(insrc, intype):
 	policyPriorityLevel = policy.get_policy_priority_level()
 	request_headers = policy.get_request_headers(host)
 	request_headers['X-CSRF-Token'] = policy.login(session, user, password, host) 
-
+	
+	if intype == 'from_csv':
+		jsonPolicy = build_policy_from_csv(insrc)
+	elif intype == 'from_json_memory':
+		jsonPolicy = insrc
+	elif intype == 'from_json_file':
+		with open(insrc, 'r') as f:
+			jsonPolicy = json.load(f)
+	else:
+		print "Error:  Import Policy called for an unsupported format."
+		sys.exit(1)
+	
 	formdata = {"name": policyName,
 				"description": policyDescription,
 				"priorityLevel": policyPriority,
@@ -120,17 +131,6 @@ def import_policy(insrc, intype):
 	groupId = response['addedDeviceGroupId']
 	print "Inserting configuration and rules into policy id:  %i" % (groupId)
 
-	if intype == 'from_csv':
-		jsonPolicy = build_policy_from_csv(insrc)
-	elif intype == 'from_json_memory':
-		jsonPolicy = insrc
-	elif intype == 'from_json_file':
-		with open(insrc, 'r') as f:
-			jsonPolicy = json.load(f)
-	else:
-		print "Error:  Import Policy called for an unsupported format."
-		sys.exit(1)
-	
 	formdata = {"id": groupId,
 				"origname": policyName,
 				"name": policyName,
