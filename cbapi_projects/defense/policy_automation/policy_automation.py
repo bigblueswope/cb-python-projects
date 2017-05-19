@@ -246,6 +246,13 @@ else:
 #		without -i
 #			accept filename as pol name
 #			not accept filename as pol name
+#	import_json
+#		with -i
+#			accept filename as pol name
+#			not accept filename as pol name
+#		without -i
+#			accept filename as pol name
+#			not accept filename as pol name
 #	transfer
 #		same server
 #			same org
