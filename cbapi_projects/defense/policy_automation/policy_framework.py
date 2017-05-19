@@ -43,11 +43,18 @@ def get_username_password(src_or_dst):
 	return uname, pword
 
 def get_policy_name(infile):
-	ppn = infile.split('.',1)[0]
-	print "DESTINATION Policy Name: %s" % (ppn)
-	pol_name = raw_input("Type you New Policy Name or just press 'Enter' to use '%s': " % (ppn))
-	if not pol_name:
-		pol_name = ppn
+	if type(infile) == 'string':
+		ppn = infile.split('.',1)[0]
+		print "DESTINATION Policy Name: %s" % (ppn)
+		pol_name = raw_input("Type you New Policy Name or just press 'Enter' to use '%s': " % (ppn))
+		if not pol_name:
+			pol_name = ppn
+	else:
+		pol_name = raw_input("DESTINATION Policy Name: ")
+		if not pol_name:
+			print "ERROR:  DESTINATION policy name cannot be blank.  Rerun the script and provide a name."
+			sys.exit(1)
+	
 	return pol_name
 
 def get_policy_description():
