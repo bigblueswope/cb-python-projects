@@ -42,7 +42,6 @@ The output argument can be used when performing the export_json action.
 
 If the optional arguments are not provided on the command line, you will be prompted for the information when the script runs.
 
-NOTE:  The transfer action has only been tested with the source and destination being the same Cb Defense instance. In theory, if different instances are used for the source and destination the transer action should work if the instances are on the same software release/version.  But this has not been tested, so proceed with caution.
 
 Acknowledgements:  Patrick Upatham deserves the bulk of the credit for this tool.  He did all the heavy lifting reverse engineering the policy pages of the Cb Defense UI and wrote the first iterations of each of these functions.  Thank you Patrick!  Pass this man some Kudos points!!!!!
 
