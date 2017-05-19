@@ -1,7 +1,8 @@
 This is a python tool to allow one to easily:
 1.  Export the contents of a Cb Defense policy to a JSON file.
 2.  Import a CSV full of Cb Defense rules to a policy in a CbD instance.
-3.  Transfer a policy from one Cb Defense organization to another.
+3.  Import a JSON file containing an entire Cb Defense policy
+4.  Transfer a policy from one Cb Defense organization to another.
 
 The tool requires one to have a recent version of the Python library 'requests' installed.
 	To install 'requests' try the following command:
