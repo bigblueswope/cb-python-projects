@@ -103,10 +103,10 @@ for j in hashes.keys():
 	# for each result returned for the sha256 based search
 	for bar in foo['results']:
 		#assign the eventId to a variable
-		fid= bar['eventId']
+		eid = bar['eventId']
 		
 		# Use the eventId as part of a filename
-		fo = './results/%s.sha256hash' % (fid)
+		fo = './results/%s.sha256hash' % (eid)
 		
 		#  Writing individual "results" files because we can grep the assorted out files looking for the hash
 		with open(fo, 'w') as results:
