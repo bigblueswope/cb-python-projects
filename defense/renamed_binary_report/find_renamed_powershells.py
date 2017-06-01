@@ -6,9 +6,6 @@ import sys
 import pprint
 import requests
 import requests.packages.urllib3
-#from six.moves.configparser import RawConfigParser
-#import attrdict
-#import six
 from auth import CredentialStore
 from errors import CredentialError
 
