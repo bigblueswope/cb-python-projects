@@ -132,6 +132,6 @@ for j in hashes.keys():
 	print uri
 	print j
 	for k in appNames.keys():
-		print "	" + k + " = " + str(appNames[k])
+		print "    " + k + " = " + str(appNames[k])
 
 
