@@ -45,7 +45,7 @@ if not os.path.exists('./results'):
     os.makedirs('./results')
 
 #Request all the events with an application name of powershell.exe
-url = 'https://api5.conferdeploy.net/integrationServices/v3/event?applicationName=powershell.exe&rows=10000&searchWindow=2w'
+url = 'https://api5.conferdeploy.net/integrationServices/v3/event?applicationName=powershell.exe&rows=1000&searchWindow=2w'
 headers = {'X-Auth-Token': token}
 r = requests.get(url, headers=headers)
 foo = r.json()
@@ -64,6 +64,8 @@ for bar in foo['results']:
 
 	# write the contents of this event to the file
 	#  can compare these files to the files/events we generate when we query for the sha256hash below
+	#  Writing individual "results" files because we can grep the assorted out files looking for the hash
+
 	with open(fn, 'w') as wr:
 		wr.write(json.dumps(bar, indent=2))
 
@@ -90,7 +92,7 @@ for j in hashes.keys():
 	
 	#build a URL based upon sha56hash=hash_from_hash_dict
 	# MY ASSERTION IS THAT THIS QUERY RETURNS THE MOST RECENT x EVENTS WHEN rows=x
-	url = 'https://api5.conferdeploy.net/integrationServices/v3/event?sha256hash=%s&rows=100&searchWindow=2w' % (j)
+	url = 'https://api5.conferdeploy.net/integrationServices/v3/event?sha256hash=%s&rows=1000&searchWindow=2w' % (j)
 	r = requests.get(url, headers=headers)
 	foo = r.json()
 
@@ -102,6 +104,7 @@ for j in hashes.keys():
 		# Use the eventId as part of a filename
 		fo = './results/%s.sha256hash' % (fid)
 		
+		#  Writing individual "results" files because we can grep the assorted out files looking for the hash
 		with open(fo, 'w') as results:
 			#write the contents of the event to its own file
 			results.write(json.dumps(bar, indent=2))
