@@ -98,6 +98,7 @@ for j in hashes.keys():
 	
 	#build a URL based upon sha56hash=hash_from_hash_dict
 	# MY ASSERTION IS THAT THIS QUERY RETURNS THE MOST RECENT x EVENTS WHEN rows=x
+	# INSTEAD OF THE x MOST RECENT EVENTS THAT HAVE sha256hash AS THE APP SHA256
 	uri = '%s/integrationServices/v3/event?sha256hash=%s&rows=1000&searchWindow=2w' % (url, j)
 	r = requests.get(uri, headers=headers)
 	foo = r.json()
