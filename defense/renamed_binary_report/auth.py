@@ -48,7 +48,6 @@ class CredentialStore(object):
 
         retval = {}
         for k, v in six.iteritems(default_profile):
-                print k, v
                 retval[k] = self.credentials.get(credential_profile, k)
 		
         if not retval["api_key"] or not retval["conn_id"] or not retval["cbd_api_url"]:
