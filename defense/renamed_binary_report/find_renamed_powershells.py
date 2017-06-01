@@ -32,6 +32,12 @@ except CredentialError, e:
 api_key,conn_id = my_creds.credentials.api_key, my_creds.credentials.conn_id
 token = "%s/%s" % (api_key, conn_id)
 
+url = my_creds.credentials.cbd_api_url
+
+if not url.lower().startswith('https://'):
+	print "cbd_api_url in the credentials file must begin with 'https://'"
+	sys.exit(1)
+
 #dict to track the distinct hashes that match the process name in question
 #  powershell.exe is this script
 hashes = {}
@@ -45,14 +51,14 @@ if not os.path.exists('./results'):
     os.makedirs('./results')
 
 #Request all the events with an application name of powershell.exe
-url = 'https://api5.conferdeploy.net/integrationServices/v3/event?applicationName=powershell.exe&rows=1000&searchWindow=2w'
+uri = '%s/integrationServices/v3/event?applicationName=powershell.exe&rows=1000&searchWindow=2w' % (url)
 headers = {'X-Auth-Token': token}
-r = requests.get(url, headers=headers)
+r = requests.get(uri, headers=headers)
 foo = r.json()
 
 
 print "Powershell Hashes and Count of Events with that Hash as the App SHA"
-print url
+print uri
 
 # Iterate over the results 
 for bar in foo['results']:
@@ -92,8 +98,8 @@ for j in hashes.keys():
 	
 	#build a URL based upon sha56hash=hash_from_hash_dict
 	# MY ASSERTION IS THAT THIS QUERY RETURNS THE MOST RECENT x EVENTS WHEN rows=x
-	url = 'https://api5.conferdeploy.net/integrationServices/v3/event?sha256hash=%s&rows=1000&searchWindow=2w' % (j)
-	r = requests.get(url, headers=headers)
+	uri = '%s/integrationServices/v3/event?sha256hash=%s&rows=1000&searchWindow=2w' % (url, j)
+	r = requests.get(uri, headers=headers)
 	foo = r.json()
 
 	# for each result returned for the sha256 based search
@@ -123,7 +129,7 @@ for j in hashes.keys():
 
 	print ""
 	print "Application Names and Count of Occurrences"
-	print url
+	print uri
 	print j
 	for k in appNames.keys():
 		print "	" + k + " = " + str(appNames[k])

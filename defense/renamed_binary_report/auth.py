@@ -6,6 +6,7 @@ from errors import CredentialError
 default_profile = {
     "api_key": None,
     "conn_id": None,
+    "cbd_api_url": None
 }
 
 
@@ -18,6 +19,8 @@ class Credentials(attrdict.AttrDict):
             raise CredentialError("No API Key (api_key) specified")
         if not self.get("conn_id", None):
             raise CredentialError("No Connector ID (conn_id) specified")
+        if not self.get("cbd_api_url", None):
+            raise CredentialError("No CB API URL (cb_api_url) specified")
 
 
 class CredentialStore(object):
@@ -45,9 +48,10 @@ class CredentialStore(object):
 
         retval = {}
         for k, v in six.iteritems(default_profile):
+                print k, v
                 retval[k] = self.credentials.get(credential_profile, k)
 		
-        if not retval["api_key"] or not retval["conn_id"]:
+        if not retval["api_key"] or not retval["conn_id"] or not retval["cbd_api_url"]:
             raise CredentialError("API Key and Connector ID not available for profile %s" % credential_profile)
 
         return Credentials(retval)
