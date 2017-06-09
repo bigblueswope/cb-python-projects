@@ -132,7 +132,7 @@ for j in hashes.keys():
 	#print the hash
 	print j
 	for k in appNames.keys():
-		# print the name of the process and how many times we have seen that hash executed as that binary
+		# print the name of the process and how many times we have seen that hash executed as that name
 		print "    " + k + " = " + str(appNames[k])
 
 
