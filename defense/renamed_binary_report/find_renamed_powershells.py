@@ -100,12 +100,16 @@ for j in hashes.keys():
 	r = requests.get(uri, headers=headers)
 	foo = r.json()
 
+	print ""
+	print "Application Names and Count of Occurrences"
+	print uri
+	
 	# for each result returned for the sha256 based search
 	for bar in foo['results']:
 		#assign the eventId to a variable
 		eid = bar['eventId']
 		
-		# Use the eventId as part of a filename
+		# Use the eventId as part of a filename in a subdirectory of this directory
 		fo = './results/%s.sha256hash' % (eid)
 		
 		#  Writing individual "results" files because we can grep the assorted out files looking for the hash
@@ -125,9 +129,6 @@ for j in hashes.keys():
 				# if not create an new entry with a count of 1
 				appNames[appName] = 1
 
-	print ""
-	print "Application Names and Count of Occurrences"
-	print uri
 	print j
 	for k in appNames.keys():
 		print "    " + k + " = " + str(appNames[k])
