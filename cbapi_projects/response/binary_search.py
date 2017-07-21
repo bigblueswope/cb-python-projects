@@ -21,11 +21,13 @@ def main():
     # for each result 
     for binary in binary_query:
         try: 
+			#server_added_timestamp has milliseconds
             s = datetime.datetime.strptime(binary.server_added_timestamp, "%Y-%m-%dT%H:%M:%S.%fZ")
             now = datetime.datetime.utcnow()
             dwell_time = now-s
         except ValueError:
             try:
+				#server_added_timestamp does not have milliseconds
                 s = datetime.datetime.strptime(binary.server_added_timestamp, "%Y-%m-%dT%H:%M:%SZ")
                 now = datetime.datetime.utcnow()
                 dwell_time = now-s

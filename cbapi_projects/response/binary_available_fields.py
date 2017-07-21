@@ -18,7 +18,7 @@ def main():
     binary_query = cb.select(Binary).where(args.query)
     
     for binary in binary_query:
-		print binary
+		#print binary
 		for k in sorted(binary._info):
 			print k
 		break
