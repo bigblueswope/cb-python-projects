@@ -19,7 +19,7 @@ End Function
 set objFSO = CreateObject("Scripting.FileSystemObject")
 set shell = CreateObject("WScript.Shell")
 rem destPath = shell.SpecialFolders("Desktop")
-destPath = "c:\test"
+destPath = "c:\cbd_se_test\"
 
 TestFolderStatus(destPath)
 fname = destPath & "\" & curDate & ".vbs"
