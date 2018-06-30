@@ -24,6 +24,8 @@ def main():
         sys.exit(0)
  
     processes = cb.process_search_and_events_iter(args.query)
+    print args.query
+    
     for proc in processes:
         #for m in proc[0]:
         #    p0.append(m)
